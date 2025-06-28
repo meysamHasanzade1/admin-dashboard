@@ -1,10 +1,19 @@
+"use client";
 import Pagination from "@/app/ui/dashboard/pagination/Pagination";
 import Search from "@/app/ui/dashboard/search/search";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 function UsersPage() {
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    fetch("/api/users")
+      .then((res) => res.json())
+      .then((data) => setUsers(data));
+  }, []);
+
   return (
     <div className="bg-[#182237] rounded-md mt-[20px] p-[20px]">
       <div className="flex items-center justify-between">
@@ -60,6 +69,15 @@ function UsersPage() {
         </tbody>
       </table>
       <Pagination />
+      <div>
+        {/* <ul>
+          {users.map((u) => (
+            <li key={u.id}>
+              {u.name} - {u.email}
+            </li>
+          ))}
+        </ul> */}
+      </div>
     </div>
   );
 }
