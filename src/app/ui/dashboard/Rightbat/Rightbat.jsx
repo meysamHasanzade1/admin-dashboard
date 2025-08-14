@@ -1,10 +1,9 @@
-import Image from "next/image";
 import React from "react";
 import { MdPlayCircleFilled } from "react-icons/md";
 
 function Rightbar() {
   return (
-    <div className="fixed no-reao">
+    <div className="fixed lg:block hidden  ">
       <div className="relative mb-0.5 bg-linear-to-t p-2 to-[#182237] bg-no-repeat from-[#253352]">
         <div className="absolute bottom-0 mb-[20px] py-[20px] rounded-md right-0 w-full  h-[50%] "></div>
         <div className="flex flex-col gap-[24px] font-bold">

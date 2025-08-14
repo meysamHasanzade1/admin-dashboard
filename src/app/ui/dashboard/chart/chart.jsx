@@ -48,7 +48,7 @@ const data = [
 ];
 function Chart() {
   return (
-    <div className="h-[450px] bg-[#182237] p-[20px] rounded-md">
+    <div className="h-[450px] max-sm:h-80 max-sm:w-full bg-[#182237] p-[20px] rounded-md">
       <h2 className="font-light text-[#b7bac1] mb-[20px]">Weekly Recap</h2>
       <ResponsiveContainer width="100%" height="90%">
         <LineChart

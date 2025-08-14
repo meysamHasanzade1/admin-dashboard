@@ -1,4 +1,5 @@
 import Pagination from "@/app/ui/dashboard/pagination/Pagination";
+import ProductsMobile from "@/app/ui/dashboard/productsMobile/page";
 import Search from "@/app/ui/dashboard/search/search";
 import Image from "next/image";
 import Link from "next/link";
@@ -6,7 +7,7 @@ import React from "react";
 
 function ProductsPage() {
   return (
-    <div className="bg-[#182237] rounded-md mt-[20px] p-[20px]">
+    <div className="bg-[#182237]  ml-0 lg:ml-80 rounded-md mt-[20px] p-[20px]">
       <div className="flex items-center justify-between">
         <Search placeholder="Search for a user..." />
         <Link href="/dashboard/products/add">
@@ -15,7 +16,7 @@ function ProductsPage() {
           </button>
         </Link>
       </div>
-      <table className="w-full">
+      <table className="w-full hidden lg:table">
         <thead>
           <tr>
             <td className="p-[10px]">Title</td>
@@ -35,7 +36,7 @@ function ProductsPage() {
                   alt=""
                   width={40}
                   height={40}
-                  src="/icons8-user.png"
+                  src="/icons8-apple-inc.png"
                 />
                 IPhone
               </div>
@@ -52,14 +53,14 @@ function ProductsPage() {
                   </button>
                 </Link>
                 <button className="px-[10px] py-[10px] rounded-md text-white border-none cursor-pointer bg-red-500">
-                  Delete
+                  Remove
                 </button>
               </div>
             </td>
           </tr>
         </tbody>
       </table>
-      <Pagination />
+      <ProductsMobile />
     </div>
   );
 }

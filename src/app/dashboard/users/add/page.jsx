@@ -1,13 +1,14 @@
 "use client";
 import { useState } from "react";
+import stylesss from "./dashbord.module.css";
 
 function AddUsers() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
-  // const [admin, setAdmin] = useState(false);
-  // const [active, setActive] = useState(false);
+  const [isAdmin, setAdmin] = useState(true);
+  const [isActive, setActive] = useState(true);
   const [description, setDescription] = useState("");
 
   const handleSubmit = async (e) => {
@@ -20,6 +21,8 @@ function AddUsers() {
         email,
         password,
         phone,
+        isActive,
+        isAdmin,
         description,
       }),
     });
@@ -28,10 +31,10 @@ function AddUsers() {
   };
 
   return (
-    <div className="bg-[#182237] p-[20px] rounded-md mt-[20px]">
+    <div className=" bg-[#182237] p-[20px] ml-0 lg:ml-80 rounded-md mt-[20px]">
       <form onSubmit={handleSubmit} className="flex justify-between flex-wrap">
         <input
-          className="p-[30px] w-[45%] rounded-md mb-[30px] text-white border-2 border-[#2e374a]"
+          className={`${stylesss.input} p-[30px] w-[45%] rounded-md mb-[30px] text-white border-2 border-[#2e374a]`}
           type="text"
           placeholder="username"
           name="username"
@@ -40,7 +43,7 @@ function AddUsers() {
           required
         />
         <input
-          className="p-[30px] w-[45%] rounded-md mb-[30px] text-white border-2 border-[#2e374a]"
+          className={`${stylesss.input}p-[30px] w-[45%] rounded-md mb-[30px] text-white border-2 border-[#2e374a]`}
           type="email"
           placeholder="email"
           value={email}
@@ -49,7 +52,7 @@ function AddUsers() {
           required
         />
         <input
-          className="p-[30px] w-[45%] rounded-md mb-[30px] text-white border-2 border-[#2e374a]"
+          className={`${stylesss.input} p-[30px] w-[45%] rounded-md mb-[30px] text-white border-2 border-[#2e374a]`}
           type="password"
           placeholder="Password"
           name="password"
@@ -58,7 +61,7 @@ function AddUsers() {
           required
         />
         <input
-          className="p-[30px] w-[45%] rounded-md mb-[30px] text-white border-2 border-[#2e374a]"
+          className={`${stylesss.input} p-[30px] w-[45%] rounded-md mb-[30px] text-white border-2 border-[#2e374a]`}
           type="number"
           placeholder="Phone"
           value={phone}
@@ -66,15 +69,13 @@ function AddUsers() {
           name="phone"
         />
         <select
-          className="p-[30px] w-[45%] rounded-md mb-[30px] text-white border-2 border-[#2e374a]"
+          className={`${stylesss.input} p-[30px] w-[45%] rounded-md mb-[30px] text-white border-2 border-[#2e374a]`}
           name="isAdmin"
           id="isAdmin"
-          // value={admin}
-          // onChange={(e) => setAdmin(e.target.value)}
+          value={isAdmin}
+          onChange={(e) => setAdmin(e.target.value)}
         >
-          <option className="bg-[#182237]" value={true} selected>
-            Is Admin?
-          </option>
+          <option className="bg-[#182237]">Is Admin?</option>
           <option className="bg-[#182237]" value={true}>
             Yes
           </option>
@@ -83,15 +84,13 @@ function AddUsers() {
           </option>
         </select>
         <select
-          className="p-[30px] w-[45%] rounded-md mb-[30px] text-white border-2 border-[#2e374a]"
+          className={`${stylesss.input} p-[30px] w-[45%] rounded-md mb-[30px] text-white border-2 border-[#2e374a]`}
           name="isActive"
           id="isActive"
-          // value={active}
-          // onChange={(e) => setActive(e.target.value)}
+          value={isActive}
+          onChange={(e) => setActive(e.target.value)}
         >
-          <option className="bg-[#182237]" value={false} selected>
-            Is Active?
-          </option>
+          <option className="bg-[#182237]">Is Active?</option>
           <option className="bg-[#182237]" value={true}>
             Yes
           </option>
@@ -101,7 +100,7 @@ function AddUsers() {
         </select>
 
         <textarea
-          className="p-[30px] w-full text-white border-2 border-[#2e374a] h-70 mb-6"
+          className="max-sm:text-[15px] max-sm:h-50 p-[30px] w-full text-white border-2 border-[#2e374a] h-70 mb-6"
           rows={16}
           name="desc"
           id="desc"
@@ -110,7 +109,7 @@ function AddUsers() {
           placeholder="Description"
         ></textarea>
         <button
-          className="w-full p-[30px] bg-teal-500 text-white border-none rounded-md cursor-pointer"
+          className="w-full max-sm:p-2.5 p-[30px] bg-teal-500 text-white border-none rounded-md cursor-pointer"
           type="submit"
         >
           Submit
