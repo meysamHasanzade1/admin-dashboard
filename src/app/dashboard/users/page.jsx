@@ -1,5 +1,5 @@
 "use client";
-import Pagination from "@/app/ui/dashboard/pagination/Pagination";
+
 import Search from "./Search/SearchBar";
 import handleDelete from "../../../lib/HandleDelete";
 import Image from "next/image";
