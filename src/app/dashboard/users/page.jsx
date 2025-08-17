@@ -9,28 +9,40 @@ import UsersMobile from "@/app/ui/dashboard/usersMobile/UsersMobile";
 
 function UsersPage() {
   const [users, setUsers] = useState([]);
-  const [searchQuery, setSearchQuary] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     fetch("/api/users")
       .then((res) => res.json())
       .then((data) => {
-        setUsers(data);
+        if (Array.isArray(data)) {
+          setUsers(data);
+        } else {
+          console.error("خطا در دریافت کاربران:", data.error || data);
+          setUsers([]);
+        }
+      })
+      .catch((err) => {
+        console.error("خطا در fetch کاربران:", err);
+        setUsers([]);
       });
   }, []);
 
-  const filteredUsers = users.filter(
-    (user) =>
-      user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      user.email.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const filteredUsers = Array.isArray(users)
+    ? users.filter(
+        (user) =>
+          user.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          user.email?.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    : [];
+
   return (
-    <div className="bg-[#182237] rounded-md mt-[20px] p-[20px]  lg:ml-80  overflow-x-auto">
+    <div className="bg-[#182237] rounded-md mt-[20px] p-[20px] lg:ml-80 overflow-x-auto">
       <div className="flex items-center justify-between">
         <Search
           placeholder="Search for a user..."
           searchQuery={searchQuery}
-          setSearchQuary={setSearchQuary}
+          setSearchQuery={setSearchQuery}
         />
         <Link href="/dashboard/users/add">
           <button className="p-[10px] bg-[#5d57c9] text-white border-none rounded-md cursor-pointer">
@@ -38,6 +50,7 @@ function UsersPage() {
           </button>
         </Link>
       </div>
+
       <table className="w-full min-w-full hidden lg:table">
         <thead>
           <tr>
@@ -60,11 +73,13 @@ function UsersPage() {
                     height={40}
                     src="/icons8-user.png"
                   />
-                  {user.name}
+                  {user.name || "-"}
                 </div>
               </td>
-              <td className="p-[10px]">{user.email}</td>
-              <td className="p-[10px]">{user.createdAt.slice(0, 10)}</td>
+              <td className="p-[10px]">{user.email || "-"}</td>
+              <td className="p-[10px]">
+                {user.createdAt ? user.createdAt.slice(0, 10) : "-"}
+              </td>
               <td className="p-[10px]">
                 {user.isAdmin ? "isAdmin" : "notAdmin"}
               </td>
@@ -91,28 +106,31 @@ function UsersPage() {
                 </div>
               </td>
             </tr>
-            <th className="lg:hidden">
-              <div className="flex gap-[10px] justify-center">
-                <Link href={`/dashboard/users/${user.id}`}>
-                  <button className="px-[10px] py-[10px] rounded-md text-white border-none cursor-pointer bg-teal-500">
-                    View
+            <tr className="lg:hidden">
+              <td colSpan={6}>
+                <div className="flex gap-[10px] justify-center mt-[10px]">
+                  <Link href={`/dashboard/users/${user.id}`}>
+                    <button className="px-[10px] py-[10px] rounded-md text-white border-none cursor-pointer bg-teal-500">
+                      View
+                    </button>
+                  </Link>
+                  <button
+                    onClick={() =>
+                      handleDelete(user.id, () =>
+                        setUsers((prev) => prev.filter((u) => u.id !== user.id))
+                      )
+                    }
+                    className="px-[10px] py-[10px] rounded-md text-white border-none cursor-pointer bg-red-500"
+                  >
+                    Delete
                   </button>
-                </Link>
-                <button
-                  onClick={() =>
-                    handleDelete(user.id, () =>
-                      setUsers((prev) => prev.filter((u) => u.id !== user.id))
-                    )
-                  }
-                  className="px-[10px] py-[10px] rounded-md text-white border-none cursor-pointer bg-red-500"
-                >
-                  Delete
-                </button>
-              </div>
-            </th>
+                </div>
+              </td>
+            </tr>
           </tbody>
         ))}
       </table>
+
       <div className="lg:hidden">
         <UsersMobile
           users={searchQuery ? filteredUsers : users}

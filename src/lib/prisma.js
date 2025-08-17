@@ -1,14 +1,16 @@
 // lib/prisma.js
 import { PrismaClient } from "@prisma/client";
 
-const globalForPrisma = global;
+let prisma;
 
-export const prisma =
-  globalForPrisma.prisma ||
-  new PrismaClient({
-    log: ["error"],
-  });
-
-if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
+if (process.env.NODE_ENV === "production") {
+  prisma = new PrismaClient();
+} else {
+  // جلوگیری از ساخت چندباره PrismaClient در محیط توسعه (HMR)
+  if (!global.prisma) {
+    global.prisma = new PrismaClient();
+  }
+  prisma = global.prisma;
+}
 
 export default prisma;
